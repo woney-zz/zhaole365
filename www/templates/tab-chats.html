@@ -21,9 +21,13 @@
         <h2>{{chat.name}}</h2>
         <p>{{chat.lastText}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-
+        
+        <ion-option-button class="button-stable" ng-click="top(chat)">
+          置顶
+        </ion-option-button>
+        
         <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
+          删除
         </ion-option-button>
       </ion-item>
     </ion-list>
