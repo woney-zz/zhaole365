@@ -1,4 +1,4 @@
-angular.module('zhaole365.services', [])
+angular.module('zhaole365')
 
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
