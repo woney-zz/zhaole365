@@ -3,8 +3,8 @@
     <ion-list>
         <a class="item item-thumbnail-left item-icon-right" href="#">
             <img src="http://www.zhaole365.com/ow_userfiles/plugins/base/avatars/avatar_big_1_1417413368.jpg">
-            <h2>找乐365 汪浩</h2>
-            <p>集结号：hawkwang_buaa</p>
+            <h2>{{settings.name}}</h2>
+            <p>集结号：{{settings.account}}</p>
     
             <i class="icon ion-chevron-right icon-accessory"></i>
         </a>
@@ -35,13 +35,30 @@
           <i class="icon ion-chevron-right icon-accessory"></i>
         </a>        
 
+
+
         <div class="item item-divider">  </div>
       
         <a class="item item-icon-left item-icon-right" href="#">
           <i class="icon ion-ios-gear"></i>
           <h3>设置</h3>
           <i class="icon ion-chevron-right icon-accessory"></i>
-        </a>      
+        </a>    
+        
+        <div class="item item-divider">  </div>
+      
+        <div class="item">
+          
+          <p>Window width: {{settings.winWidth}}px</p>
+          
+        </div>    
+       
+        
+      
+<!--      <ion-item class="item" ng-repeat="todo in settings.todos" type="item-text-wrap"">
+        <h2>{{todo.action}}</h2>
+        <p>{{todo.done}}</p>
+      </ion-item>-->
         
     </ion-list>
   </ion-content>

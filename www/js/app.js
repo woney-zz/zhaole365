@@ -7,95 +7,109 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 //angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
-angular.module('zhaole365', ['ionic'])
+var db = null;
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleLightContent();
-    }
-  });
-})
+angular.module('zhaole365', ['ionic', 'ngCordova'])
 
-.config(function($ionicConfigProvider)	{
-		//	Make	tabs	always	show	up	at	the	bottom
-		$ionicConfigProvider.tabs.position('bottom');
-		//	Align	the	navBar	title	to	the	center
-		$ionicConfigProvider.navBar.alignTitle('center');
-})
+        .run(function ($ionicPlatform, $cordovaSQLite, LocalDbService) {
+            $ionicPlatform.ready(function () {
+                // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+                // for form inputs)
+                if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                    db = $cordovaSQLite.openDB('my.db');
+                    
+                }
+                else
+                {
+                    db = window.openDatabase("my.db", '1', 'my', 1024 * 1024 * 100); // browser
+                }
+                
+                if (window.StatusBar) {
+                    // org.apache.cordova.statusbar required
+                    StatusBar.styleLightContent();
+                }
 
-.config(function($stateProvider, $urlRouterProvider) {
+                
+                LocalDbService.createdb();
+                LocalDbService.insert('hawk','wang');
+                
+            });
+        })
 
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
-  $stateProvider
+        .config(function ($ionicConfigProvider) {
+            //	Make	tabs	always	show	up	at	the	bottom
+            $ionicConfigProvider.tabs.position('bottom');
+            //	Align	the	navBar	title	to	the	center
+            $ionicConfigProvider.navBar.alignTitle('center');
+        })
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: "/tab",
-    abstract: true,
-    templateUrl: "templates/tabs.html"
-  })
+        .config(function ($stateProvider, $urlRouterProvider) {
 
-  // Each tab has its own nav history stack:
-  .state('tab.calendar', {
-    url: '/calendar',
-    views: {
-      'tab-calendar': {
-        templateUrl: 'templates/tab-calendar.html',
-        controller: 'CalendarCtrl'
-      }
-    }
-  })
-  
-  .state('tab.discovery', {
-    url: '/discovery',
-    views: {
-      'tab-discovery': {
-        templateUrl: 'templates/tab-discovery.html',
-        controller: 'DiscoveryCtrl'
-      }
-    }
-  })
+            // Ionic uses AngularUI Router which uses the concept of states
+            // Learn more here: https://github.com/angular-ui/ui-router
+            // Set up the various states which the app can be in.
+            // Each state's controller can be found in controllers.js
+            $stateProvider
 
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
+                    // setup an abstract state for the tabs directive
+                    .state('tab', {
+                        url: "/tab",
+                        abstract: true,
+                        templateUrl: "templates/tabs.html"
+                    })
 
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
-  });
+                    // Each tab has its own nav history stack:
+                    .state('tab.calendar', {
+                        url: '/calendar',
+                        views: {
+                            'tab-calendar': {
+                                templateUrl: 'templates/tab-calendar.html',
+                                controller: 'CalendarCtrl'
+                            }
+                        }
+                    })
 
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/chats');
+                    .state('tab.discovery', {
+                        url: '/discovery',
+                        views: {
+                            'tab-discovery': {
+                                templateUrl: 'templates/tab-discovery.html',
+                                controller: 'DiscoveryCtrl'
+                            }
+                        }
+                    })
 
-});
+                    .state('tab.chats', {
+                        url: '/chats',
+                        views: {
+                            'tab-chats': {
+                                templateUrl: 'templates/tab-chats.html',
+                                controller: 'ChatsCtrl'
+                            }
+                        }
+                    })
+                    .state('tab.chat-detail', {
+                        url: '/chats/:chatId',
+                        views: {
+                            'tab-chats': {
+                                templateUrl: 'templates/chat-detail.html',
+                                controller: 'ChatDetailCtrl'
+                            }
+                        }
+                    })
+
+                    .state('tab.account', {
+                        url: '/account',
+                        views: {
+                            'tab-account': {
+                                templateUrl: 'templates/tab-account.html',
+                                controller: 'AccountCtrl'
+                            }
+                        }
+                    });
+
+            // if none of the above states are matched, use this as the fallback
+            $urlRouterProvider.otherwise('/tab/chats');
+
+        });
